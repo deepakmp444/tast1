@@ -111,7 +111,7 @@ function CheckOut() {
                     onChange={(e) => setStartDate(e.target.value)}
                   />
                   {seconds_difference > 0 && seconds_difference < 86400 && (
-                    <p className="text-danger">You choose wrong</p>
+                    <p className="text-danger">You choose wrong date</p>
                   )}
                 </Col>
                 <Col>
@@ -126,7 +126,7 @@ function CheckOut() {
                     onChange={(e) => setEndDate(e.target.value)}
                   />
                   {seconds_differenc3 > 86400 && (
-                    <p className="text-danger">You choose wrong</p>
+                    <p className="text-danger">You choose wrong date</p>
                   )}
                 </Col>
               </Row>
