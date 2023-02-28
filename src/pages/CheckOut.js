@@ -68,7 +68,6 @@ function CheckOut() {
   const date2 = new Date(getGame.startEvent);
   const time_difference1 = date2 - date1;
   const seconds_difference = time_difference1 / 1000;
-  console.log("seconds_difference:", seconds_difference);
 
   //!! END date
   const date3 = new Date(endDate);
@@ -76,8 +75,6 @@ function CheckOut() {
   const time_difference3 = date3 - date4;
   const seconds_differenc3 = time_difference3 / 1000;
 
-  // console.log("Time difference in milliseconds:", time_difference);
-  // console.log("Time difference in seconds:", seconds_differenc3);
 
   // days and hour left
   const current_utc_time = new Date(Date.now()).toUTCString();
@@ -125,7 +122,8 @@ function CheckOut() {
                     type="datetime-local"
                     onChange={(e) => setEndDate(e.target.value)}
                   />
-                  {seconds_differenc3 > 86400 && (
+                  {(seconds_differenc3 > 86400 ||
+                    seconds_differenc3 < -172800) && (
                     <p className="text-danger">You choose wrong date</p>
                   )}
                 </Col>
@@ -187,7 +185,6 @@ function CheckOut() {
                 variant="success"
                 className="mt-3 mb-3"
                 onClick={() => alert("Query done")}
-                disabled={seconds_differenc3 > 86400}
               >
                 Make Query
               </Button>
