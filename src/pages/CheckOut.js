@@ -97,7 +97,7 @@ function CheckOut() {
         <Row style={{ marginTop: "80px" }}>
           <Col sm={3}></Col>
           <Col sm={6}>
-            <Card className="p-3">
+            <Card className="p-3 mb-5">
               <Row>
                 <Col>
                   <label htmlFor="startEvent">
