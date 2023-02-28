@@ -5,6 +5,7 @@ import NavBarComponent from "../components/NavBarComponent";
 import { useNavigate } from "react-router-dom";
 function CheckOut() {
   const [getGame, setGetGame] = useState([]);
+  console.log("getGame:", getGame.startEvent);
   const navigate = useNavigate();
 
   const [distance, setDistance] = useState([
@@ -36,16 +37,6 @@ function CheckOut() {
   const [getDistance, setGetDistance] = useState("");
   const [price, setPrice] = useState("");
 
-  const dateStart = new Date(getGame.startEvent);
-  console.log("dateStart:", dateStart);
-  const dateStartSelected = new Date(startDate);
-
-  const time_differenceStart = dateStartSelected - dateStart;
-
-  // Convert time difference to seconds, minutes, hours, or days as needed
-  const seconds_difference = time_differenceStart / 1000;
-  console.log("seconds_difference:", seconds_difference);
-
   useEffect(() => {
     const games = JSON.parse(localStorage.getItem("game"));
     if (games) {
@@ -72,8 +63,25 @@ function CheckOut() {
     }
   };
 
+  // start date
+  const date1 = new Date(startDate);
+  const date2 = new Date(getGame.startEvent);
+  const time_difference1 = date2 - date1;
+  const seconds_difference = time_difference1 / 1000;
+
+
+  //!! END date
+  const date3 = new Date(endDate);
+  const date4 = new Date(getGame.endEvent);
+  const time_difference3 = date3 - date4;
+  const seconds_differenc3 = time_difference3 / 1000;
+
+  // console.log("Time difference in milliseconds:", time_difference);
+  console.log("Time difference in seconds:", seconds_differenc3);
+
+  // days and hour left
   const current_utc_time = new Date(Date.now()).toUTCString();
-  const other_utc_time = new Date("2023-02-28T18:30:00Z");
+  const other_utc_time = new Date(getGame.endEvent);
 
   const time_difference = other_utc_time - new Date(current_utc_time);
   const days_difference = Math.floor(time_difference / (1000 * 60 * 60 * 24));
@@ -93,15 +101,18 @@ function CheckOut() {
               <Row>
                 <Col>
                   <label htmlFor="startEvent">
-                    End Event:
+                    Start Event:
                     <br />
                     {moment(getGame.startEvent).format("LLLL")}
                   </label>{" "}
                   <br />
                   <input
                     type="datetime-local"
-                    onChange={(e) => setEndDate(e.target.value)}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
+                  {seconds_difference > 0 && seconds_difference < 86400 && (
+                    <p className="text-danger">You choose wrong</p>
+                  )}
                 </Col>
                 <Col>
                   <label htmlFor="endEvent">
@@ -112,8 +123,11 @@ function CheckOut() {
                   <br />
                   <input
                     type="datetime-local"
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={(e) => setEndDate(e.target.value)}
                   />
+                  {seconds_differenc3 > 86400 && (
+                    <p className="text-danger">You choose wrong</p>
+                  )}
                 </Col>
               </Row>
               <h3 className="mt-3">Event Name: {getGame.gameName}</h3>
@@ -169,7 +183,12 @@ function CheckOut() {
                   );
                 })}
               </Form.Select>
-              <Button variant="success" className="mt-3 mb-3" onClick={()=>alert("Query done")}>
+              <Button
+                variant="success"
+                className="mt-3 mb-3"
+                onClick={() => alert("Query done")}
+                disabled={seconds_differenc3 > 86400}
+              >
                 Make Query
               </Button>
               <p className="text-center text-muted">
