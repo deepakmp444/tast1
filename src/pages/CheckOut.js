@@ -74,6 +74,7 @@ function CheckOut() {
   const date4 = new Date(getGame.endEvent);
   const time_difference3 = date3 - date4;
   const seconds_differenc3 = time_difference3 / 1000;
+  console.log('seconds_differenc3:', seconds_differenc3)
 
 
   // days and hour left
@@ -123,7 +124,7 @@ function CheckOut() {
                     onChange={(e) => setEndDate(e.target.value)}
                   />
                   {(seconds_differenc3 > 86400 ||
-                    seconds_differenc3 < -172800) && (
+                    seconds_differenc3 < -86400) && (
                     <p className="text-danger">You choose wrong date</p>
                   )}
                 </Col>
